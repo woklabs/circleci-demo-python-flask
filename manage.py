@@ -33,13 +33,15 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def test(coverage=False):
     """Run the unit tests."""
+    print('36 in test')
     if coverage and not os.environ.get('FLASK_COVERAGE'):
         import sys
         os.environ['FLASK_COVERAGE'] = '1'
         os.execvp(sys.executable, [sys.executable] + sys.argv)
     import unittest
-    import xmlrunner
+    import xmlrunner    
     tests = unittest.TestLoader().discover('tests')
+    print('tests ', tests)
     # run tests with unittest-xml-reporting and output to $CIRCLE_TEST_REPORTS on CircleCI or test-reports locally
     xmlrunner.XMLTestRunner(output=os.environ.get('CIRCLE_TEST_REPORTS','test-reports')).run(tests)
     if COV:
